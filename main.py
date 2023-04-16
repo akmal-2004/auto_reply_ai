@@ -104,5 +104,6 @@ def main():
         client.disconnect()
         print(f'{ai_name} has been stopped')
 
+
 if __name__ == "__main__":
     main()
