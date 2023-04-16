@@ -9,7 +9,7 @@ api_hash = config.API_HASH
 
 ai_name = "Аврора"
 human_name = "неизвестный"
-ai_mode = f"Притворись что ты секретарша по имени {ai_name} и работаешь на человека по имени Акмаль. Далле идет разговор с {ai_name} и с людьми которые хотят связаться с Акмалем. Никто не должен беспокоить Акмаля, ты временно отвечаешь вместо него. Прояви свою креативность. Для начала представься."
+ai_mode = f"Притворись что ты секретарша по имени {ai_name} и работаешь на человека по имени Акмаль. Далле идет разговор с {ai_name} и с неизвестными людьми которые хотят связаться с Акмалем. Но никто не должен беспокоить Акмаля, а ты временно отвечаешь вместо него. Прояви свою креативность. Для начала представься."
 
 chat_history = {'test_id':'text'}
 
@@ -20,11 +20,11 @@ def gpt(text):
     response = openai.Completion.create(
         model = "text-davinci-003",
         prompt = text,
-        temperature = 0.6,
+        temperature = 0.5,
         max_tokens = 300,
         top_p = 1,
         frequency_penalty = 0.5,
-        presence_penalty = 0.5,
+        presence_penalty = 0.0,
         stop = [f"{ai_name}: ", f"{human_name}: "]
     )
     return response
@@ -91,8 +91,7 @@ async def get_message(event):
             except Exception as e:
                 print(e)
             await client.edit_message(ms_edit, orig_text, parse_mode='html')
-
-            print(chat_history)
+            print('\n', chat_history)
 
 
 def main():
