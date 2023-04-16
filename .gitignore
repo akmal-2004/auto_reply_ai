@@ -1,3 +1,5 @@
 
 Avrora_ai.session
 config.py
+*.session-journal
+__pycache__/config.cpython-310.pyc
