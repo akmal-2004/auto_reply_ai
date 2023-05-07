@@ -77,27 +77,30 @@ async def get_message(event):
             orig_text = "<b>Автоответчик:</b>\n<code>" + response + "</code>"
             ms_edit = await event.reply(orig_text, parse_mode='html')
 
-            # text = orig_text.split()
-            # text = text[1:]
-            # tbp = "" # to be printed
-            # typing_symbol = "░"
-            # try:
-            #     for word in text:
-            #         await client.edit_message(ms_edit, tbp + typing_symbol, parse_mode='html')
-            #         tbp += word + " "
-            #         time.sleep(0.05)
-            #         await client.edit_message(ms_edit, tbp, parse_mode='html')
-            #         time.sleep(0.05)
-            # except Exception as e:
-            #     print(e)
-            # await client.edit_message(ms_edit, orig_text, parse_mode='html')
-            print('\n', chat_history)
+            text = orig_text.split()
+            text = text[1:]
+            tbp = "" # to be printed
+            typing_symbol = "░"
+            try:
+                for word in text:
+                    await client.edit_message(ms_edit, tbp + typing_symbol, parse_mode='html')
+                    tbp += word + " "
+                    time.sleep(0.05)
+                    await client.edit_message(ms_edit, tbp, parse_mode='html')
+                    time.sleep(0.05)
+            except Exception as e:
+                print(e)
+            await client.edit_message(ms_edit, orig_text, parse_mode='html')
+            print('\n', "lats chat history: ------------------")
+            for i in chat_history:
+                print("---------", i, "---------")
+                print(chat_history[i], '\n')
 
 
 def main():
     try:
         client.start()
-        # client.send_message(client.get_me(), f'<b>assistant {ai_name} has been started.\nEnter <code>.on</code> or <code>.off</code></b>', parse_mode='html')
+        client.send_message(client.get_me(), f'<b>assistant {ai_name} has been started.\nEnter <code>.on</code> or <code>.off</code></b>', parse_mode='html')
         print(f'{ai_name} has been started')
         client.run_until_disconnected()
     finally:
