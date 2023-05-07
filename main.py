@@ -11,7 +11,7 @@ ai_name = "Аврора"
 human_name = "неизвестный"
 ai_mode = f"Притворись что ты секретарша по имени {ai_name} и работаешь на человека по имени Акмаль. Далле идет разговор с {ai_name} и с неизвестными людьми которые хотят связаться с Акмалем. Никто не должен беспокоить Акмаля, а ты временно отвечаешь вместо него. Для начала представься."
 
-chat_history = {'test_id':'text'}
+chat_history = {}
 
 client = TelegramClient('Avrora_ai', api_id, api_hash)
 flag = True
@@ -20,9 +20,9 @@ def gpt(text):
     response = openai.Completion.create(
         model = "text-davinci-003",
         prompt = text,
-        temperature = 0.7,
+        temperature = 0.5,
         max_tokens = 300,
-        top_p = 1,
+        top_p = 0.3,
         frequency_penalty = 0.5,
         presence_penalty = 0.0,
         stop = [f"{ai_name}: ", f"{human_name}: "]
@@ -77,21 +77,24 @@ async def get_message(event):
             orig_text = "<b>Автоответчик:</b>\n<code>" + response + "</code>"
             ms_edit = await event.reply(orig_text, parse_mode='html')
 
-            # text = orig_text.split()
-            # text = text[1:]
-            # tbp = "" # to be printed
-            # typing_symbol = "░"
-            # try:
-            #     for word in text:
-            #         await client.edit_message(ms_edit, tbp + typing_symbol, parse_mode='html')
-            #         tbp += word + " "
-            #         time.sleep(0.05)
-            #         await client.edit_message(ms_edit, tbp, parse_mode='html')
-            #         time.sleep(0.05)
-            # except Exception as e:
-            #     print(e)
-            # await client.edit_message(ms_edit, orig_text, parse_mode='html')
-            print('\n', chat_history)
+            text = orig_text.split()
+            text = text[1:]
+            tbp = "" # to be printed
+            typing_symbol = "░"
+            try:
+                for word in text:
+                    await client.edit_message(ms_edit, tbp + typing_symbol, parse_mode='html')
+                    tbp += word + " "
+                    time.sleep(0.05)
+                    await client.edit_message(ms_edit, tbp, parse_mode='html')
+                    time.sleep(0.05)
+            except Exception as e:
+                print(e)
+            await client.edit_message(ms_edit, orig_text, parse_mode='html')
+            print('\n', "lats chat history: ------------------")
+            for i in chat_history:
+                print("---------", i, "---------")
+                print(chat_history[i], '\n')
 
 
 def main():
